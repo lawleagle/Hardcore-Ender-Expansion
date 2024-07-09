@@ -22,12 +22,12 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 	private final World world;
 	private final Random randCopy;
 	private final MapGenScatteredFeature islandGen, towerGen;
-	
+
 	public ChunkProviderHardcoreEnd(World world, long seed){
 		super(world,seed);
 		this.world = world;
 		this.randCopy = endRNG;
-		
+
 		islandGen = new MapGenIsland();
 		towerGen = new MapGenTower();
 	}
@@ -39,7 +39,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 			MinecraftForge.EVENT_BUS.post(event);
 			if (event.getResult() == Result.DENY)return;
 		}
-		
+
 		for(int index = 0; index < 32768; index++){
 			if (blocks[index] == Blocks.stone)blocks[index] = Blocks.end_stone;
 		}
@@ -49,18 +49,18 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 			towerGen.func_151539_a(this,world,x,z,blocks);
 		}
 	}
-	
+
 	@Override
 	public void populate(IChunkProvider chunkProvider, int x, int z){
 		BlockFalling.fallInstantly = true;
 		if (!BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Pre(chunkProvider,world,randCopy,x,z,false));
-		
+
 		if (world.provider.dimensionId == 1){
 			try{
 				islandGen.generateStructuresInChunk(world,randCopy,x,z);
 				towerGen.generateStructuresInChunk(world,randCopy,x,z);
 			}catch(ConcurrentModificationException e){
-				e.printStackTrace(); // I have no fucking clue
+				e.printStackTrace();
 			}
 		}
 
@@ -69,7 +69,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 		if (!BiomeGenHardcoreEnd.overrideWorldGen)MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(chunkProvider,world,randCopy,x,z,false));
 		BlockFalling.fallInstantly = false;
 	}
-	
+
 	@Override
 	public void recreateStructures(int x, int z){
 		if (world.provider.dimensionId == 1){
@@ -77,7 +77,7 @@ public class ChunkProviderHardcoreEnd extends ChunkProviderEnd{
 			towerGen.func_151539_a(this,world,x,z,(Block[])null);
 		}
 	}
-	
+
 	@Override
 	public ChunkPosition func_147416_a(World world, String identifier, int x, int y, int z){
 		return null;

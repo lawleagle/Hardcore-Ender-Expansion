@@ -25,15 +25,15 @@ ec.title.enh.tnt=TNT Enhancements
 ec.title.enh.spatialDashGem=Spatial Dash Gem Enhancements
 ec.title.enh.transferenceGem=Transference Gem Enhancements
 
-ec.reg.0=Welcome to the Ender Compendium, the source of all knowledge about the End!
+ec.reg.0=Ender Compendium, the source of all knowledge about the End!
 ec.reg.1=The Compendium is divided into phases, each contains blocks, items and mobs you can find in that phase.
 ec.reg.2=To reveal information about these objects, you have to discover them or unlock them using Knowledge Points.
 ec.reg.3=Then you can spend your points on Knowledge Fragments, which hold the information.
-ec.reg.4=Newly discovered object will appear in the bottom right corner of your screen. Opening the Compendium will then show the object.
+ec.reg.4=Newly discovered object will *not* appear in the bottom right corner of your screen. Opening the Compendium will then show the object.
 ec.reg.5=Note that discovering objects also unlocks some of their fragments and gives you points.
 ec.reg.6=Prices of objects and fragments gradually increase the further you progress.
 ec.reg.7=Knowledge Notes are items found in dungeons and traded by villagers. Using them gives you Knowledge Points.
-ec.reg.8=Important progression points are shown in the Achievements screen. Click an achievement to open it in the Compendium.
+ec.reg.8=Important progression points are shown in the Achievements screen, which does not exist. Good luck on clicking an achievement to open it in the Compendium.
 ec.reg.9=You can use the right mouse button instead of the Back button, and mouse wheel to scroll objects and pages.
 ec.reg.18=Pressing the Compendium key while looking at an object or hovering over an item in a GUI will show it in the Compendium.
 ec.reg.19=This behavior works with Not Enough Items too, but you can bypass it by holding CTRL.
@@ -79,7 +79,7 @@ ec.reg.751=Several Obsidian spikes with Ender Crystals are scattered across the 
 ec.reg.752=There are 3 types of spikes:
 ec.reg.753=One type of crystal spawn 8 primed TNT blocks that explodes near the ground, and makes $e:Enderman:Endermen$ under it attack the player.
 ec.reg.754=Another type has Iron Bars on top around the crystal. This type is usually present on tall pillars.
-ec.reg.755=The third type causes a massive explosion when destroyed, and scatters the entire pillar around. This type is only selected for small pillars.
+ec.reg.755=The third type causes a massive explosion when destroyed, and scatters the entire pillar around. This type is usually present on small pillars.
 
 ec.reg.90=End Stone is the primary building material of the End. It is highly resistant to explosions.
 

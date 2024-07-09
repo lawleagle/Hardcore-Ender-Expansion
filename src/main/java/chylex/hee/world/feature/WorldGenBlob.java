@@ -47,21 +47,21 @@ import chylex.hee.world.util.IRandomAmount;
 public class WorldGenBlob extends WorldGenerator{
 	private enum BlobType{
 		COMMON, UNCOMMON, RARE;
-		
+
 		WeightedList<BlobPattern> patterns = new WeightedList<>();
 	}
-	
+
 	private static final WeightedList<ObjectWeightPair<BlobType>> typesClose = new WeightedList<>(),
 																  typesFar = new WeightedList<>();
-	
+
 	static{
 		typesClose.add(ObjectWeightPair.of(BlobType.COMMON,50));
 		typesClose.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
-		
+
 		typesFar.add(ObjectWeightPair.of(BlobType.COMMON,42));
 		typesFar.add(ObjectWeightPair.of(BlobType.UNCOMMON,7));
 		typesFar.add(ObjectWeightPair.of(BlobType.RARE,1));
-		
+
 		BlobType.COMMON.patterns.addAll(new BlobPattern[]{
 			// basic random pattern
 			new BlobPattern(1).addGenerators(new BlobGenerator[]{
@@ -85,7 +85,7 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobPopulatorPlant(3).block(BlockList.death_flower).blockAmount(IRandomAmount.linear,3,7).attempts(20,35).knownBlockLocations()
 			}).setPopulatorAmountProvider(IRandomAmount.preferSmaller,1,7)
 		});
-		
+
 		BlobType.UNCOMMON.patterns.addAll(new BlobPattern[]{
 			// tiny blob with ores
 			new BlobPattern(7).addGenerators(new BlobGenerator[]{
@@ -94,17 +94,17 @@ public class WorldGenBlob extends WorldGenerator{
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorOreScattered(1).block(BlockList.end_powder_ore).blockAmount(IRandomAmount.linear,10,20).attempts(40,40).visiblePlacementAttempts(15).knownBlockLocations()
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1),
-			
+
 			// blob with a cut off part
 			new BlobPattern(6).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingleCut(1).cutRadMp(0.2D,0.7D).cutDistMp(0.7D,1.5D).rad(3.5D,6D)
 			}),
-			
+
 			// caterpillar
 			new BlobPattern(4).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorChain(1).amount(IRandomAmount.aroundCenter,4,9).rad(2.7D,3.6D).distMp(0.9D,1.1D).unifySize()
 			}),
-			
+
 			// ender goo filled blob
 			new BlobPattern(3).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(3.8D,7D)
@@ -112,7 +112,7 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobPopulatorFiller(1).block(BlockList.ender_goo),
 				new BlobPopulatorLiquidFall(1).block(BlockList.ender_goo).amount(IRandomAmount.linear,14,22).attempts(22,36)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,2,2),
-			
+
 			// hollow goo covered blob with a chest inside
 			new BlobPattern(2).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(5D,7.5D)
@@ -135,7 +135,7 @@ public class WorldGenBlob extends WorldGenerator{
 				}),IRandomAmount.preferSmaller,3,10).onlyInside(),
 				new BlobPopulatorCover(1).block(BlockList.ender_goo)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
-			
+
 			// explosions from center
 			new BlobPattern(2).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorFromCenter(1).amount(IRandomAmount.linear,1,5).rad(2.6D,4.5D).dist(3.2D,5.5D)
@@ -143,7 +143,7 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobPopulatorSpikes(1).block(Blocks.air).amount(IRandomAmount.linear,25,42)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1)
 		});
-		
+
 		BlobType.RARE.patterns.addAll(new BlobPattern[]{
 			// transport beacon
 			new BlobPattern(3).addGenerators(new BlobGenerator[]{
@@ -156,7 +156,7 @@ public class WorldGenBlob extends WorldGenerator{
 			}).addPopulators(new BlobPopulator[]{
 				new BlobPopulatorTransportBeacon(1)
 			}).setPopulatorAmountProvider(IRandomAmount.exact,1,1),
-			
+
 			// blob filled with ores
 			new BlobPattern(2).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(2.9D,4.9D),
@@ -167,7 +167,7 @@ public class WorldGenBlob extends WorldGenerator{
 				new BlobPopulatorOreScattered(1).block(BlockList.igneous_rock_ore).blockAmount(IRandomAmount.aroundCenter,13,23).attempts(24,31).knownBlockLocations(),
 				new BlobPopulatorOreScattered(1).block(BlockList.endium_ore).blockAmount(IRandomAmount.preferSmaller,4,8).attempts(8,13).visiblePlacementAttempts(4).knownBlockLocations()
 			}).setPopulatorAmountProvider(IRandomAmount.exact,3,3),
-			
+
 			// large blob with a spawner
 			new BlobPattern(2).addGenerators(new BlobGenerator[]{
 				new BlobGeneratorSingle(1).rad(6D,7.7D),
@@ -192,12 +192,12 @@ public class WorldGenBlob extends WorldGenerator{
 			}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
 		});
 	}
-	
+
 	private static final IDecoratorGenPass genSmootherPass = new IDecoratorGenPass(){
 		private final byte[] airOffX = new byte[]{ -1, 1, 0, 0, 0, 0 },
 							 airOffY = new byte[]{ 0, 0, 0, 0, -1, 1 },
 							 airOffZ = new byte[]{ 0, 0, -1, 1, 0, 0 };
-		
+
 		@Override
 		public void run(DecoratorFeatureGenerator gen, List<BlockPosM> blocks){
 			for(BlockPosM loc:blocks){
@@ -210,19 +210,19 @@ public class WorldGenBlob extends WorldGenerator{
 			}
 		}
 	};
-	
+
 	private BlobType getBlobType(Random rand, int x, int z){
 		double dist = MathUtil.distance(x,z);
-		
+
 		if (dist < 180D)return BlobType.COMMON;
 		else if (dist < 340D)return typesClose.getRandomItem(rand).getObject();
 		else return typesFar.getRandomItem(rand).getObject();
 	}
-	
+
 	@Override
 	public boolean generate(World world, Random rand, int x, int y, int z){
 		BlockPosM tmpPos = BlockPosM.tmp();
-		
+
 		if (tmpPos.set(x-7,y,z).getBlock(world) != Blocks.air ||
 			tmpPos.set(x+7,y,z).getBlock(world) != Blocks.air ||
 			tmpPos.set(x,y,z-7).getBlock(world) != Blocks.air ||
@@ -231,20 +231,20 @@ public class WorldGenBlob extends WorldGenerator{
 			tmpPos.set(x,y+7,z).getBlock(world) != Blocks.air ||
 			tmpPos.set(x,y-15,z).getBlock(world) != Blocks.air ||
 			tmpPos.set(x,y+15,z).getBlock(world) != Blocks.air)return false;
-		
+
 		DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 		Pair<BlobGenerator,List<BlobPopulator>> pattern = getBlobType(rand,x,z).patterns.getRandomItem(rand).generatePattern(rand);
-		
+
 		pattern.getLeft().generate(gen,rand);
 		gen.runPass(genSmootherPass);
 		for(BlobPopulator populator:pattern.getRight())populator.generate(gen,rand);
-		
+
 		if (gen.getOutOfBoundsCounter() > 6)return false;
-		
+
 		gen.generate(world,rand,x,y,z);
 		return true;
 	}
-	
+
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
@@ -271,22 +271,22 @@ public class WorldGenBlob extends WorldGenerator{
 					}),IRandomAmount.preferSmaller,6,10)
 				}).setPopulatorAmountProvider(IRandomAmount.exact,2,2)
 			});
-			
+
 			DecoratorFeatureGenerator gen = new DecoratorFeatureGenerator();
 			Pair<BlobGenerator,List<BlobPopulator>> pattern = patterns.getRandomItem(world.rand).generatePattern(world.rand);
-			
+
 			Stopwatch.time("WorldGenBlob - test blob generator");
 			pattern.getLeft().generate(gen,world.rand);
 			Stopwatch.finish("WorldGenBlob - test blob generator");
-			
+
 			Stopwatch.time("WorldGenBlob - test smoother pass");
 			gen.runPass(genSmootherPass);
 			Stopwatch.finish("WorldGenBlob - test smoother pass");
-			
+
 			Stopwatch.time("WorldGenBlob - test pattern generator");
 			for(BlobPopulator populator:pattern.getRight())populator.generate(gen,world.rand);
 			Stopwatch.finish("WorldGenBlob - test pattern generator");
-			
+
 			Stopwatch.time("WorldGenBlob - test generate");
 			gen.generate(world,world.rand,(int)player.posX+10,(int)player.posY-5,(int)player.posZ);
 			Stopwatch.finish("WorldGenBlob - test generate");

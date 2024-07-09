@@ -1,6 +1,8 @@
 package chylex.hee.proxy;
 import java.util.Calendar;
 import java.util.Random;
+
+import chylex.hee.Tags;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.model.ModelBat;
@@ -97,41 +99,41 @@ public class ModClientProxy extends ModCommonProxy{
 	public static final Random seedableRand = new Random();
 	public static final ModelEndermanHeadBiped endermanHeadModelBiped = new ModelEndermanHeadBiped();
 	public static boolean modifyVoidChestDescription = false;
-	
+
 	@Override
 	public void loadConfiguration(){
 		super.loadConfiguration();
 		ConfigHandler.loadClient();
 	}
-	
+
 	@Override
 	public EntityPlayer getClientSidePlayer(){
 		return Minecraft.getMinecraft().thePlayer;
 	}
-	
+
 	@Override
 	public PlayerCompendiumData getClientCompendiumData(){
 		return CompendiumEventsClient.getClientData();
 	}
-	
+
 	@Override
 	public void registerRenderers(){
 		Stopwatch.time("ModClientProxy - renderers");
-		
+
 		renderIdObsidianSpecial = RenderingRegistry.getNextAvailableRenderId();
 		renderIdFlowerPot = RenderingRegistry.getNextAvailableRenderId();
 		renderIdSpookyLeaves = RenderingRegistry.getNextAvailableRenderId();
 		renderIdCrossedDecoration = RenderingRegistry.getNextAvailableRenderId();
 		renderIdVoidChest = RenderingRegistry.getNextAvailableRenderId();
 		renderIdTransportBeacon = RenderingRegistry.getNextAvailableRenderId();
-		
+
 		RenderingRegistry.registerBlockHandler(new RenderBlockObsidianSpecial());
 		RenderingRegistry.registerBlockHandler(new RenderBlockEndFlowerPot());
 		RenderingRegistry.registerBlockHandler(new RenderBlockSpookyLeaves());
 		RenderingRegistry.registerBlockHandler(new RenderBlockCrossedDecoration());
 		RenderingRegistry.registerBlockHandler(new RenderBlockVoidChest());
 		RenderingRegistry.registerBlockHandler(new RenderBlockTransportBeacon());
-		
+
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEssenceAltar.class, new RenderTileEssenceAltar());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndermanHead.class, new RenderTileEndermanHead());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCustomSpawner.class, new RenderTileCustomSpawner());
@@ -139,15 +141,15 @@ public class ModClientProxy extends ModCommonProxy{
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityVoidChest.class, new RenderTileVoidChest());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTransportBeacon.class, new RenderTileTransportBeacon());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityEndPortal.class, new RenderTileEndPortalFixed());
-		
+
 		MinecraftForgeClient.registerItemRenderer(Item.getItemFromBlock(BlockList.void_chest), new RenderItemVoidChest());
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossDragon.class, new RenderBossDragon());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBossEnderDemon.class, new RenderBossEnderDemon());
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossEnderEye.class, new RenderMiniBossEnderEye());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMiniBossFireFiend.class, new RenderMiniBossFireFiend());
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobEnderman.class, new RenderMobEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobAngryEnderman.class, new RenderMobAngryEnderman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobBabyEnderman.class, new RenderMobBabyEnderman());
@@ -161,14 +163,14 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobScorchingLens.class, new RenderTexturedMob(new ModelScorchingLens(), 0.3F, "scorching_lens.png"));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobHauntedMiner.class, new RenderTexturedMob(new ModelHauntedMiner(), 0.5F, "haunted_miner.png", 1.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityMobEndermage.class, new RenderTexturedMob(new ModelEndermage(), 0.3F, "endermage.png"));
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnderCrystal.class, new RenderEnderCrystal());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockFallingObsidian.class, new RenderFallingBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockFallingDragonEgg.class, new RenderFallingBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockTempleDragonEgg.class, new RenderFallingBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockEnhancedTNTPrimed.class, new RenderBlockEnhancedTNTPrimed());
 		RenderingRegistry.registerEntityRenderingHandler(EntityBlockHomelandCache.class, new RenderBlockHomelandCache());
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileFlamingBall.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileMinerShot.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityProjectileGolemFireball.class, new RenderFireball(0.5F));
@@ -182,7 +184,7 @@ public class ModClientProxy extends ModCommonProxy{
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltSafe.class, new RenderLightningBolt());
 		RenderingRegistry.registerEntityRenderingHandler(EntityWeatherLightningBoltDemon.class, new RenderWeatherLightningBoltPurple());
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalBiomeInteraction.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalVoidChest.class, new RenderNothing());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalPuzzleChain.class, new RenderNothing());
@@ -191,26 +193,26 @@ public class ModClientProxy extends ModCommonProxy{
 		RenderingRegistry.registerEntityRenderingHandler(EntityTechnicalCurseEntity.class, new RenderNothing());
 
 		Stopwatch.finish("ModClientProxy - renderers");
-		
+
 		Baconizer.load();
 	}
-	
+
 	@Override
 	public void registerSidedEvents(){
 		Stopwatch.time("ModClientProxy - events");
-		
+
 		OverlayManager.register();
 		CompendiumEventsClient.register();
 		CharmPouchHandlerClient.register();
 		MusicManager.register();
 		FXEvents.register();
 		HeeClientCommand.register();
-		
+
 		AchievementManager.ENDER_COMPENDIUM.setStatStringFormatter(new IStatStringFormat(){
 			@Override
 			public String formatString(String str){
 				if (hardcoreEnderbacon)str = StatCollector.translateToLocal("achievement.enderCompendium.desc.bacon");
-				
+
 				try{
 					return String.format(str,GameSettings.getKeyDisplayString(CompendiumEventsClient.getCompendiumKeyCode()));
 				}catch(Exception e){
@@ -218,47 +220,47 @@ public class ModClientProxy extends ModCommonProxy{
 				}
 			}
 		});
-		
+
 		AchievementManager.VOID_CHEST.setStatStringFormatter(new IStatStringFormat(){
 			@Override
 			public String formatString(String str){
 				return modifyVoidChestDescription ? StatCollector.translateToLocal("achievement.voidChest.notification") : str;
 			}
 		});
-		
+
 		Stopwatch.finish("ModClientProxy - events");
 	}
-	
+
 	@Override
 	public void openGui(String type){
 		if (type.equals("itemviewer"))Minecraft.getMinecraft().displayGuiScreen(new GuiItemViewer());
 		else if (type.equals("speedup"))Minecraft.getMinecraft().thePlayer.capabilities.setFlySpeed(0.3F);
 	}
-	
+
 	@Override
 	public void sendMessage(MessageType msgType, int[] data){
 		switch(msgType){
 			case TRANSPORT_BEACON_GUI:
 				GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-				
+
 				if (gui instanceof GuiTransportBeacon && data.length == 5){
 					GuiTransportBeacon beacon = (GuiTransportBeacon)gui;
 					if (beacon.centerX == data[0] && beacon.centerY == data[1] && beacon.centerZ == data[2])beacon.updateStatusEvent(data[3],data[4] == 1);
 				}
-				
+
 				break;
-				
+
 			case ENHANCEMENT_SLOT_RESET:
 				Container container = Minecraft.getMinecraft().thePlayer.openContainer;
 				if (container instanceof ContainerEndPowderEnhancements)((ContainerEndPowderEnhancements)container).onEnhancementSlotChangeClient(-1);
 				break;
-				
+
 			case DEBUG_TITLE_SET:
-				Display.setTitle(Display.getTitle()+" - HardcoreEnderExpansion - "+(Log.isDeobfEnvironment ? "dev" : "debug")+' '+HardcoreEnderExpansion.modVersion);
+				Display.setTitle(Display.getTitle()+" - HardcoreEnderExpansion - "+(Log.isDeobfEnvironment ? "dev" : "debug")+' '+ Tags.VERSION);
 				break;
 		}
 	}
-	
+
 	/**
 	 * Mode 0: enable on April Fools
 	 * Mode 1: always enabled

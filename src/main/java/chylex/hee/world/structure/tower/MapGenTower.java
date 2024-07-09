@@ -16,18 +16,18 @@ import chylex.hee.world.util.WorldGenChance;
 
 public class MapGenTower extends MapGenScatteredFeatureCustom{
 	public MapGenTower(){
-		super(9,15,350,32);
+		super(24,48,1100,32);
 	}
 
 	@Override
 	protected boolean canStructureSpawn(int x, int z, double dist, Random rand){
-		if (rand.nextInt(100) > 28 || (dist > 900D && !WorldGenChance.checkChance(0.25D+0.75D*WorldGenChance.cubic2Decr.calculate(dist,900D,3800D),rand)))return false;
-		
+		if (rand.nextInt(100) > 28 || (dist > 1100D && !WorldGenChance.checkChance(0.25D+0.75D*WorldGenChance.cubic2Decr.calculate(dist,1100D,4000D),rand)))return false;
+
 		long seed1 = worldObj.getWorldInfo().getSeed();
 		int seed2 = 1+WorldDataHandler.<DragonSavefile>get(DragonSavefile.class).getDragonDeathAmount();
 
 		List<BlockPosM> locs = new ArrayList<>();
-		
+
 		for(int xx = x-12; xx <= x+12; xx++){
 			for(int zz = z-12; zz <= z+12; zz++){
 				if (IslandSpawnChecker.getIslandBiomeAt(xx,zz,seed1,seed2) != -1){
@@ -35,13 +35,13 @@ public class MapGenTower extends MapGenScatteredFeatureCustom{
 				}
 			}
 		}
-		
+
 		int xx = x*16+16, zz = z*16+16, check = MathUtil.ceil(IslandSpawnChecker.featureSize*0.6F);
-		
+
 		for(BlockPosM loc:locs){
 			if (MathUtil.distance(xx-loc.x,zz-loc.z) < check)return false;
 		}
-		
+
 		return true;
 	}
 
@@ -49,12 +49,12 @@ public class MapGenTower extends MapGenScatteredFeatureCustom{
 	protected String getStructureName(){
 		return "hardcoreenderdragon_EndTower";
 	}
-	
+
 	@Override
 	protected StructureStart getStructureStart(int x, int z){
 		return new StructureTower(worldObj,rand,x,z);
 	}
-	
+
 	public static final HeeTest $debugTest = new HeeTest(){
 		@Override
 		public void run(String...args){
